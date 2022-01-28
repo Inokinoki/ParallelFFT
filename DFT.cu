@@ -47,7 +47,6 @@ void calculateDFTCUDA(std::complex<float>* in, std::complex<float>* out, size_t 
     cudaMemcpy(d_in, in, num * sizeof(cuComplex), cudaMemcpyHostToDevice);
 
     calculateDFTCUDAKernel<<<1, num>>>(d_in, d_out, num);
-    cudaMemcpy(out, d_out, num * sizeof(cuComplex), cudaMemcpyDeviceToHost);
 
     cudaError_t cudaStatus;
 
@@ -65,6 +64,9 @@ void calculateDFTCUDA(std::complex<float>* in, std::complex<float>* out, size_t 
         fprintf(stderr, "cudaDeviceSynchronize returned error code %d after launching DFT Kernel!\n", cudaStatus);
         goto Error;
     }
+
+    // Copy back the results
+    cudaMemcpy(out, d_out, num * sizeof(cuComplex), cudaMemcpyDeviceToHost);
 
 Error:
     cudaFree(d_in);
