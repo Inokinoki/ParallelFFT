@@ -58,3 +58,29 @@ kernel void computeDFTMetal(device const float *in,
         }
     }
 }
+
+kernel void computeDFTMetalWithPrecomputedRoot(device const float *in,
+                                               device const float *roots,
+                                               device float *out,
+                                               device const int *num,
+                                               uint index [[thread_position_in_grid]])
+{
+    if (index < (uint)*num) {
+        int i = index * 2;
+        out[i] = 0;
+        out[i + 1] = 0;
+        float2 temp1, temp2;
+        for (int j = 0; j < *num; j++)
+        {
+            temp2[0] = roots[2 * ((i * j) % (*num))];
+            temp2[1] = roots[2 * ((i * j) % (*num)) + 1];
+
+            temp1[0] = in[i]; temp1[1] = in[i + 1];
+            temp1 = complexMul(temp1, temp2);
+
+            // Copy back
+            out[i] += temp1[0];
+            out[i + 1] += temp1[1];
+        }
+    }
+}
