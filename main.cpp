@@ -1,4 +1,4 @@
-﻿// InokiFourier.cpp
+// InokiFourier.cpp
 //
 
 #include <iostream>
@@ -33,8 +33,13 @@ int main()
 		}
 	}
 #ifndef __HAS_CUDA__
+#ifndef HAS_METAL
 	std::cout << "Using CPU implementation" << std::endl;
 	calculateDFT(inBuffer, outBuffer, FFT_LEN);
+#else
+    std::cout << "Using Metal implementation" << std::endl;
+    calculateDFTMetal(inBuffer, outBuffer, FFT_LEN);
+#endif
 #else
 	std::cout << "Using customized CUDA implementation" << std::endl;
 	calculateDFTCUDA(inBuffer, outBuffer, FFT_LEN);
