@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "DFT.h"
+#include "FFT.h"
 
 #define FFT_LEN 128
 
@@ -17,13 +18,13 @@ int main()
 			inBuffer[i] = 1;
 			break;
 		case 1: case 7:
-			inBuffer[i] = std::sqrt(2) / 2;
+			inBuffer[i] = std::sqrtf(2) / 2;
 			break;
 		case 2: case 6:
 			inBuffer[i] = 0;
 			break;
 		case 3: case 5:
-			inBuffer[i] = -std::sqrt(2) / 2;
+			inBuffer[i] = -std::sqrtf(2) / 2;
 			break;
 		case 4:
 			inBuffer[i] = -1;
@@ -36,6 +37,7 @@ int main()
 #ifndef HAS_METAL
 	std::cout << "Using CPU implementation" << std::endl;
 	calculateDFT(inBuffer, outBuffer, FFT_LEN);
+	calculateFFT(inBuffer, outBuffer, FFT_LEN);
 #else
     std::cout << "Using Metal implementation" << std::endl;
     calculateDFTMetal(inBuffer, outBuffer, FFT_LEN);
