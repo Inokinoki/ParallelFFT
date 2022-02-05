@@ -14,6 +14,7 @@
 extern "C" {
 #endif
 
+/* The Metal MTLCreateSystemDefaultDevice has C-style ABI, which cannot be properly linked by C++ linker, use this workaround. */
 id<MTLDevice> GetMetalSystemDevice();
 
 #ifdef __cplusplus
