@@ -49,7 +49,7 @@ kernel void computeDFTMetal(device const float *in,
             temp2[0] = 0; temp2[1] = -2 * 3.14159265 * index * j / *num;
             temp2 = complexExp(temp2);
 
-            temp1[0] = in[i]; temp1[1] = in[i + 1];
+            temp1[0] = in[j * 2]; temp1[1] = in[j * 2 + 1];
             temp1 = complexMul(temp1, temp2);
 
             // Copy back
