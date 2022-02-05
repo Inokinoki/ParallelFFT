@@ -72,10 +72,10 @@ kernel void computeDFTMetalWithPrecomputedRoot(device const float *in,
         float2 temp1, temp2;
         for (int j = 0; j < *num; j++)
         {
-            temp2[0] = roots[2 * ((i * j) % (*num))];
-            temp2[1] = roots[2 * ((i * j) % (*num)) + 1];
+            temp2[0] = roots[2 * ((index * j) % (*num))];
+            temp2[1] = roots[2 * ((index * j) % (*num)) + 1];
 
-            temp1[0] = in[i]; temp1[1] = in[i + 1];
+            temp1[0] = in[j * 2]; temp1[1] = in[j * 2 + 1];
             temp1 = complexMul(temp1, temp2);
 
             // Copy back
